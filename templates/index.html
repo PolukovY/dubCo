@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Shortener</title>
+</head>
+<body>
+    <h1>Link Shortener</h1>
+    <form id="linkForm">
+        <input type="text" name="long_url" placeholder="Long URL" required>
+        <input type="text" name="title" placeholder="Title">
+        <input type="text" name="image_url" placeholder="Image URL">
+        <button type="submit">Create Short Link</button>
+    </form>
+    <table border="1">
+        <tr>
+            <th>Short URL</th>
+            <th>Title</th>
+            <th>Long URL</th>
+            <th>Image</th>
+        </tr>
+        {% for link in links %}
+        <tr>
+            <td><a href="/{{ link.short_url }}" target="_blank">{{ link.short_url }}</a></td>
+            <td>{{ link.title }}</td>
+            <td>{{ link.long_url }}</td>
+            <td><img src="{{ link.image_url }}" alt="Image" width="50"></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        document.getElementById('linkForm').onsubmit = async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+            const response = await fetch('/links', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Error creating link');
+            }
+        };
+    </script>
+</body>
+</html>

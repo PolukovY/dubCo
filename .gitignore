@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+.env
+*.env
+
+# IDE Specific
+.vscode/
+.idea/
+*.swp
+
+# Database
+*.sqlite3
+
+# Logs
+*.log
+
+# Other
+.DS_Store
